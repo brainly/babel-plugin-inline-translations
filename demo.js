@@ -1,0 +1,1 @@
+translator.b('Next ' + 'key');

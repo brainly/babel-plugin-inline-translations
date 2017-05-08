@@ -1,0 +1,10 @@
+{
+  "translations": {
+    "en_US": {
+      "messages": {
+        "Next key": "key Next",
+        "Number of stars %stars% and average %average%": "Liczba gwiazdek: %stars% i ich srednia %average%"
+      }
+    }
+  }
+}
