@@ -1,0 +1,10 @@
+{
+  "translations": {
+    "en_US": {
+      "messages": {
+        "Some key": "Some translation",
+        "Other key": "Other \"translation\""
+      }
+    }
+  }
+}
