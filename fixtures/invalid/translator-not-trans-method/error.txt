@@ -1,0 +1,1 @@
+Translator call not supported: "translator.test('Some ' + 'key')"

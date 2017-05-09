@@ -18,8 +18,10 @@ fs.readFile(fileName, function(err, data) {
   // use our plugin to transform the source
   const out = babel.transform(src, {
     plugins: [[i18plugin, {
-      translations: [path.join(__dirname, 'translations/messages.json'),
-        path.join(__dirname, 'translations/messages-js.json')]
+      translations: [
+        path.join(__dirname, 'translations/messages.json'),
+        path.join(__dirname, 'translations/messages-js.json')],
+      strict: true
     }]]
   });
 
