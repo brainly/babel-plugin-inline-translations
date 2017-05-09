@@ -36,9 +36,11 @@ getDirectories(invalidFixturesDir).forEach(directory => {
 
 getDirectories(invalidFixturesDir).forEach(directory => {
   const input = fs.readFileSync(path.join(invalidFixturesDir, directory, 'input.js'), 'utf8').trim();
+  const error = fs.readFileSync(path.join(invalidFixturesDir, directory, 'error.txt'), 'utf8').trim();
 
   test(`Strict mode: ${directoryNameToTestCase(directory)}`, () => {
-    expect(transformCode.bind(null, input, true)).toThrow();
+    expect(transformCode.bind(null, input, true)).toThrow(error);
+
   });
 });
 

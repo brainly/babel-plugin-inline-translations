@@ -81,42 +81,49 @@ module.exports = function() {
             const translation = translator.getTranslation(translationKey);
 
             path.replaceWith(t.stringLiteral(translation));
-          } else {
+          } else if (path.get('arguments').length === 2) {
             const transParam = path.get('arguments')[0];
             const optionsParam = path.get('arguments')[1];
-            const translationKey = transParam.node.value;
-            const translation = translator.getTranslation(translationKey);
-            const options = [];
 
-            optionsParam.node.properties.forEach(prop => {
-              const key = t.isIdentifier(prop.key) ? prop.key.name : prop.key.value;
+            if (t.isStringLiteral(transParam) && t.isObjectExpression(optionsParam)) {
+              const translationKey = transParam.node.value;
+              const translation = translator.getTranslation(translationKey);
+              const options = [];
 
-              options.push({key, value: prop.value});
-            });
+              optionsParam.node.properties.forEach(prop => {
+                const key = t.isIdentifier(prop.key) ? prop.key.name : prop.key.value;
 
-            let transArray = [translation];
+                options.push({key, value: prop.value});
+              });
 
-            options.forEach(opt => {
-              transArray = replaceInTranslation(transArray, opt.key, opt.value);
-            });
-            transArray = transArray.map(el => {
-              if (typeof el === 'string') {
-                return t.stringLiteral(el);
+              let transArray = [translation];
+
+              options.forEach(opt => {
+                transArray = replaceInTranslation(transArray, opt.key, opt.value);
+              });
+              transArray = transArray.map(el => {
+                if (typeof el === 'string') {
+                  return t.stringLiteral(el);
+                }
+                return el;
+              });
+              transArray = transArray.reduceRight((result, element) => {
+                if (!result) {
+                  return element;
+                }
+                return t.binaryExpression('+', element, result);
+              }, null);
+
+              if (isValidBinaryExpression(transArray)) {
+                path.replaceWith(t.stringLiteral(getBinaryExpressionValue(transArray)));
+              } else {
+                path.replaceWith(transArray);
               }
-              return el;
-            });
-            transArray = transArray.reduceRight((result, element) => {
-              if (!result) {
-                return element;
-              }
-              return t.binaryExpression('+', element, result);
-            }, null);
-
-            if (isValidBinaryExpression(transArray)) {
-              path.replaceWith(t.stringLiteral(getBinaryExpressionValue(transArray)));
             } else {
-              path.replaceWith(transArray);
+              handleError(path.node, state.opts.strict);
             }
+          } else {
+            handleError(path.node, state.opts.strict);
           }
         }
       }
