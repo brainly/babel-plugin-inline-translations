@@ -4,10 +4,13 @@ module.exports = class Translator {
 
     this.sourceStrings = translations.reduce((strings, trans) => {
       const locale = Object.keys(trans.translations)[0];
-      const domain = Object.keys(trans.translations[locale])[0];
-      const messages = trans.translations[locale][domain];
+      const messagesPerDomain = Object.values(trans.translations[locale]);
+      const translations = Object.values(messagesPerDomain).reduce(
+        (allKeys, domainKeys) => Object.assign(allKeys, domainKeys),
+        {}
+      );
 
-      return Object.assign(strings, messages);
+      return Object.assign(strings, translations);
     }, {});
   }
 

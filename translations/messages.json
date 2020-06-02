@@ -4,6 +4,10 @@
       "messages": {
         "Some key": "Some translation",
         "Other key": "Other \"translation\""
+      },
+      "descriptions": {
+        "Some other key": "Some other translation",
+        "Other other key": "Other other \"translation\""
       }
     }
   }

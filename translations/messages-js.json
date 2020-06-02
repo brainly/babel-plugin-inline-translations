@@ -4,6 +4,10 @@
       "messages": {
         "Next key": "key Next",
         "Number of stars %stars% and average %average%": "Liczba gwiazdek: %stars% i ich srednia %average%"
+      },
+      "descriptions": {
+        "Next other key": "key other Next",
+        "other Number of stars %stars% and average %average%": "other Liczba gwiazdek: %stars% i ich srednia %average%"
       }
     }
   }
